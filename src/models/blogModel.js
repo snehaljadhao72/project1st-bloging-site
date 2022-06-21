@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const moment = require('moment')
 const ObjectId = mongoose.Schema.Types.ObjectId
-const Date = moment().format('DD/MM/YYYY')
-console.log(Date)
+// let date = moment().format('DD/MM/YYYY')
+// console.log(Date)
 const blogSchema = new mongoose.Schema( {
     title: {
         type:String,
@@ -28,22 +28,24 @@ const blogSchema = new mongoose.Schema( {
     }, 
     subcategory: [{type:String, trim:true}], 
     
-    publishedAt: {
-        type:boolean,
-        default: false
-    }, 
+   
     isPublished: {
-        type:boolean,
+        type:Boolean,
         default: false
     },
+    publishedAt: {
+        type:Date,
+        default:null
+    },
+    isDeleted: {
+        type:Boolean,
+        default: false
+    }, 
     deletedAt:{
         type:Date,
         default:null
-    } , 
-    isDeleted: {
-        type:boolean,
-        default: false
-    }
+    } 
+    
 }, { timestamps: true });
 
 module.exports = mongoose.model('Blog', blogSchema);

@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const moment = require('moment')
+
 const ObjectId = mongoose.Schema.Types.ObjectId
-// let date = moment().format('DD/MM/YYYY')
-// console.log(Date)
+
 const blogSchema = new mongoose.Schema( {
     title: {
         type:String,

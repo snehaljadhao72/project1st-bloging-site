@@ -12,12 +12,13 @@ const createBlog = async function (req, res) {
 
         if (!req.body.title) return res.status(400).send({ msg: "title required" })
 
-        // checkTitle = await blogModel.find({title:title})   //.select({title:1, })
-        // if(title === checkTitle.title) return res.status(400).send({msg:"title is already present"});
+        checkTitle = await blogModel.findOne({title:title})  
+        
+         if(checkTitle) return res.status(400).send({msg:"title is already present"});
 
         if (!req.body.body) return res.status(400).send({ status: false, data: "body is required" })
 
-        if (!req.body.category) return res.status(400).send({ status: false, data: "category is required" })
+        if (!req.body.category) return res.status(400).send({ status: false, data: "category is required" });
 
         // console.log(checkTitle)
         if (!authorId) return res.status(400).send({ status: false, data: "authorId is required!" });
@@ -38,7 +39,6 @@ const createBlog = async function (req, res) {
         res.status(500).send({ status: false, data: err.message })
     }
 
-
 };
 module.exports.createBlog = createBlog
 
@@ -49,7 +49,9 @@ const getBlogs = async function (req, res) {
 
         let data = req.query;
         let getData = await blogModel.find({ isPublished: true, isDeleted: false, ...data }).count()
+
         if (!getData) return res.status(404).send({ status: false, data: "no such documents found!" })
+
         if (getData.length == 0) return res.status(404).send({ status: false, data: " no such data found" })
         res.status(200).send({ status: true, data: getData })
         console.log(getData)

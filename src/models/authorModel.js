@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const authorSchema = new mongoose.Schema( {
     fname: {
         type:String,
-        required:true,
+        // required:true,
         trim:true
     },
     lname: {
         type:String,
-        required:[true,"Enter last name"],
+        // required:[true,"Enter last name"],
         trim:true
     },
      
@@ -21,14 +21,14 @@ const authorSchema = new mongoose.Schema( {
         type: String,
         trim: true,
         lowercase: true,
-        unique: true,
+        // unique: true,
         validate: {
             validator: function(gmail) {
                 return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(gmail);
             },
         message: "Please enter a valid email"
         },
-        required: [true, "Email required"]
+        // required: [true, "Email required"]
     
     }, 
        

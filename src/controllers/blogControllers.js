@@ -59,7 +59,6 @@ const getBlogs = async function (req, res) {
         res.status(500).send({ status: false, data: err.message })
     }
 
-
 }
 module.exports.getBlogs = getBlogs;
 
@@ -71,8 +70,8 @@ const updateBlog = async function (req, res) {
         const requestBody = req.body;
 
         if (!blogId) return res.status(400).send({ status: false, data: "blogId is required! " });
-        let blog = await blogModel.findById(blogId);
-        if (!blog) return res.status(404).send({ status: false, data: "No such Blog is Exist " });
+        // let blog = await blogModel.findById(blogId);
+        // if (!blog) return res.status(404).send({ status: false, data: "No such Blog is Exist " });
 
         if (blog.isPublished === true) return res.status(400).send({ status: false, data: "blog is already deleted" })
 
@@ -109,8 +108,8 @@ const deleteByParams = async function (req, res) {
         let userId = req.params.blogId;
         let checkBlog = await blogModel.findById(userId)
 
-        if (!checkBlog)
-            return res.status(404).send({ status: false, data: "no such blog exist " })
+        // if (!checkBlog)
+        //     return res.status(404).send({ status: false, data: "no such blog exist " })
 
         if (checkBlog.isDeleted == true)
             return res.status(400).send({ status: false, data: "blog is already deleted" })

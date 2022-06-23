@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
 
-const authorSchema = new mongoose.Schema( {
+const authorSchema = new mongoose.Schema({
     fname: {
-        type:String,
+        type: String,
         // required:true,
-        trim:true
+        trim: true
     },
     lname: {
-        type:String,
+        type: String,
         // required:[true,"Enter last name"],
-        trim:true
+        trim: true
     },
-     
+
     title: {
-        type:String,
-        required:true, 
-        enum:["Mr", "Mrs", "Miss"]
+        type: String,
+        required: true,
+        enum: ["Mr", "Mrs", "Miss"]
     },
     email: {
         type: String,
@@ -23,19 +23,19 @@ const authorSchema = new mongoose.Schema( {
         lowercase: true,
         // unique: true,
         validate: {
-            validator: function(gmail) {
+            validator: function (gmail) {
                 return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(gmail);
             },
-        message: "Please enter a valid email"
+            message: "Please enter a valid email"
         },
         // required: [true, "Email required"]
-    
-    }, 
-       
-     password: {
-        type:String,
-        required:true
-       } 
+
+    },
+
+    password: {
+        type: String,
+        required: true
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Author', authorSchema);

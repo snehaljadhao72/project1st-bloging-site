@@ -2,7 +2,7 @@ let jwt = require("jsonwebtoken")
 const mongoose = require('mongoose');
 const blogModel = require("../models/blogModel")
 
-const isValidObjectId = (ObjectId) => {              //checks if a string is valid MongoDB ObjectId in Node.js
+const isValidObjectId = (ObjectId) => {
   return mongoose.Types.ObjectId.isValid(ObjectId);   // to validate a MongoDB ObjectId we are use .isValid() method on ObjectId
 };
 
@@ -62,9 +62,8 @@ const authorise = async function (req, res, next) {
       userLogging = blogData.authorId.toString();
       //getting authorId from blog data using authorId,converting it to string
     }
-
-    if (!userLogging)
-      return res.status(400).send({ status: false, msg: "AuthorId is required" });
+   if (!userLogging)
+      return res.status(400).send({ status: false, msg: "AuthorId is required" });  //it valids specially for query params
 
     if (loginAuthor !== userLogging)
       return res.status(403).send({ status: false, msg: "Error, authorization failed" });
@@ -75,4 +74,4 @@ const authorise = async function (req, res, next) {
   next()
 }
 
-module.exports = { authorise, authenticate }
+module.exports = { authorise, authenticate, isValidObjectId }

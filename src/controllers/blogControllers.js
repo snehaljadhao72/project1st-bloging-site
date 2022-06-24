@@ -99,9 +99,6 @@ const updateBlog = async function (req, res) {
         if (blog.isPublished === true)
             return res.status(400).send({ status: false, data: "blog is already published...!" })
 
-        // if(blog.isPublished === false && blog.isDeleted ===true) 
-        // return res.status(400).send({status:false, data: "You are unable to publish this Blog...!"})
-
         if (blog.isPublished === false && blog.isDeleted === false) {   //condtion here we wants to perform
 
             const updateBlog = await blogModel.findOneAndUpdate(

@@ -18,7 +18,8 @@ const authenticate = async function (req, res, next) {
       return res.status(400).send({ status: false, msg: "token must be present" });
 
      if(!decodedToken) return res.status(500).send({status:false ,data:"Internal server error...!"});    
-      
+     req["userId"] = decodedToken.authorId ;
+
       next()
   } 
   catch (err) {

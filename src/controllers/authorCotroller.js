@@ -6,7 +6,7 @@ const blogModel = require("../models/blogModel");
 const createAuthor = async function (req, res) {
 
     try {
-        
+
         let body = req.body;
         if (Object.keys(body).length == 0)
             return res.status(400).send({ status: false, data: "Data in request body is required...!" })
@@ -36,7 +36,7 @@ const createAuthor = async function (req, res) {
         res.status(201).send({ data: createData });
 
     } catch (err) {
-        res.status(500).send({ data: err.Message });
+        res.status(500).send({ status: false, data: err.Message });
     }
 }
 

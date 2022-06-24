@@ -33,7 +33,7 @@ const loginAuthor = async function (req, res) {
     res.status(201).send({ status: true, token: token });
 
   } catch (err) {
-    res.status(500).send({ msg: err.msg })
+    res.status(500).send({ status: false, msg: err.msg })
   }
 };
 

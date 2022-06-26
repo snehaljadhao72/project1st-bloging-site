@@ -12,6 +12,13 @@ const loginAuthor = async function (req, res) {
     if (!req.body.email)
       return res.status(400).send({ status: false, data: "email is required...!" })
 
+    const isvalidEmail = function (gmail) {
+      let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/   //.test(gmail);
+      return regex.test(gmail)
+    }
+    if (!isvalidEmail(req.body.email)) {
+      return res.status(400).send({ status: false, msg: "Please enter a valid format of email" })
+    }
 
     if (!req.body.password)
       return res.status(400).send({ status: false, data: "password is required...!" })
@@ -33,7 +40,7 @@ const loginAuthor = async function (req, res) {
     res.status(201).send({ status: true, token: token });
 
   } catch (err) {
-    res.status(500).send({ status: false, msg: err.msg })
+    res.status(500).send({ status: false, msg: err.message })
   }
 };
 

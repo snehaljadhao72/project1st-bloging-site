@@ -2,7 +2,7 @@ const authorModel = require("../models/authorModel");
 const blogModel = require("../models/blogModel");
 
 
-//### Author APIs /authors
+/*******************************### Author APIs /authors****************************************/
 const createAuthor = async function (req, res) {
 
     try {

@@ -3,7 +3,7 @@ const authorModels = require('../models/authorModel')
 const { isValidObjectId } = require('../middleware/middleware')  //objectliteral distructure
 
 
-// ### POST /blogs
+//*******************************  ### POST /blogs ************************************/
 const createBlog = async function (req, res) {
     try {
 
@@ -55,17 +55,12 @@ const createBlog = async function (req, res) {
 };
 
 
-// ### GET /blogs
+// *****************************### GET /blogs  ##*********************************************//
 const getBlogs = async function (req, res) {
     try {
 
         let data = req.query;
-        if (Object.keys(data).length == 0)
-            return res.status(400).send({ status: false, data: "we requise data here in Query...!" })
-
-        if (!isValidObjectId(req.query.authorId))                //checking the boolean value
-            return res.status(400).send({ status: false, msg: "Enter a valid author Id" })
-
+       
         let getData = await blogModel.find({ isPublished: true, isDeleted: false, ...data }).count()
 
         if (getData.length == 0)
@@ -84,12 +79,18 @@ const getBlogs = async function (req, res) {
 }
 
 
-// ### PUT /blogs/:blogId
+//************************* */ ### PUT /blogs/:blogId  ###/************************************** */
 const updateBlog = async function (req, res) {
     try {
 
         let blogId = req.params.blogId
         const requestBody = req.body;
+
+        // let userIdFromToken =  req.decodedToken.userId
+        // if(userIdFromToken !== userId){
+        //     return res.status(403).send({status : false , msg : "unauthorized"})   //authorization
+        // }
+
         let blog = await blogModel.findById(blogId);
 
         // if (!blogId)
@@ -130,7 +131,7 @@ const updateBlog = async function (req, res) {
 }
 
 
-// ### DELETE /blogs/:blogId
+//***************************** */ ### DELETE /blogs/:blogId  //************************************* */
 const deleteByParams = async function (req, res) {
     try {
 
@@ -162,7 +163,7 @@ const deleteByParams = async function (req, res) {
 }
 
 
-// ### DELETE /blogs?queryParams
+//***************************** */ ### DELETE /blogs?queryParams  ###//******************************** */
 const deleteByQuery = async function (req, res) {
     try {
 
@@ -193,3 +194,4 @@ const deleteByQuery = async function (req, res) {
 
 
 module.exports = { createBlog, getBlogs, updateBlog, deleteByParams, deleteByQuery }
+

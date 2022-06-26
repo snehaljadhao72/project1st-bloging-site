@@ -7,28 +7,33 @@ const isValidObjectId = (ObjectId) => {
   return mongoose.Types.ObjectId.isValid(ObjectId);   // to validate a MongoDB ObjectId we are use .isValid() method on ObjectId
 };
 
-
+/****************************************(Authentication)*****************************************************/
 const authenticate = async function (req, res, next) {
   try {
 
     let token = req.headers["x-api-key"] || req.headers["x-Api-key"];
-    decodedToken = jwt.verify(token, "Project1_Group10")
-    
     if (!token)
-      return res.status(400).send({ status: false, msg: "token must be present" });
+    return res.status(401).send({ status: false, msg: "token must be present" });
 
-     if(!decodedToken) return res.status(500).send({status:false ,data:"Internal server error...!"});    
-     req["userId"] = decodedToken.authorId ;
+
+    decodedToken = jwt.verify(token, "Project1_Group10")
+    // if(decodedToken) {
+    //   req.decodedToken = decodedToken
+    //     next()
+    //    }
+    
+   //  if(!decodedToken) return res.status(500).send({status:false ,data:"Internal server error...!"});   // ye error handle nhi hoga 
+   
 
       next()
   } 
   catch (err) {
-   res.status(500).send({ status:false, msg: err.message })
+   res.status(403).send({status:false ,data:"Internal server error...!"})
   }
  
 }
 
-
+/*********************************************(Authorization)***************************************************** */
 const authorise = async function (req, res, next) {
   try {
 
@@ -86,3 +91,5 @@ const authorise = async function (req, res, next) {
 }
 
 module.exports = { authorise, authenticate, isValidObjectId }
+
+

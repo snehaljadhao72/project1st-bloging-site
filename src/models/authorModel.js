@@ -22,12 +22,8 @@ const authorSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
         // unique: true,
-        validate: {
-            validator: function (gmail) {
-                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(gmail);
-            },
-            message: "Please enter a valid email"
-        },
+       
+           
         // required: [true, "Email required"]
 
     },

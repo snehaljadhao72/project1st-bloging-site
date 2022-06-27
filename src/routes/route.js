@@ -23,13 +23,13 @@ const loginCotroller = require("../controllers/loginController")
 
 /**----------------------------------------------------------------------------------------------- */
 
-// router.post('/authors', authorController.createAuthor)
+ router.post('/authors', authorController.createAuthor)
 
  router.post('/blogs',blogController.createBlog)
-// router.get('/blogs',blogController.getBlogs)
+ router.get('/blogs',blogController.getBlogs)
 
-// router.put('/blogs/:blogId',blogController.updateBlog)
-// router.delete('/blogs/:blogId',blogController.deleteByParams)
+ router.put('/blogs/:blogId',blogController.updateBlog)
+ router.delete('/blogs/:blogId',blogController.deleteByParams)
 // router.delete('/blogs',blogController.deleteByQuery)
 
 module.exports = router;

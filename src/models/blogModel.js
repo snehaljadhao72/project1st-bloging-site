@@ -15,7 +15,7 @@ const blogSchema = new mongoose.Schema({
         trim: true
     },
     authorId: {
-        type: ObjectId,
+        type: ObjectId, 
         ref: "Author",
         required: [true, "authorId is required"],
     },

@@ -22,8 +22,8 @@ const authorSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
         // unique: true,
-       
-           
+
+
         // required: [true, "Email required"]
 
     },
@@ -31,7 +31,8 @@ const authorSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        lowercase: true
+        minLength: 8
+
     }
 }, { timestamps: true });
 

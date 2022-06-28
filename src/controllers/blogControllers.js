@@ -1,43 +1,48 @@
 const blogModel = require('../models/blogModel');
 const authorModels = require('../models/authorModel')
-const { isValidObjectId } = require('../middleware/middleware')  //objectliteral distructure
+const mongoose = require('mongoose');
 
 
 //*******************************  ### POST /blogs ************************************/
+
+
 const createBlog = async function (req, res) {
     try {
 
-        let title = req.body.title
-        let authorId = req.body.authorId
+        let { title, body, category, isPublished, publishedAt, authorId } = req.body
+
         const author = await authorModels.findById(authorId);
 
         if (Object.keys(req.body).length == 0)
-            return res.status(400).send({ status: false, data: "Data in request body is required" })
+            return res.status(400).send({ status: false, msg: "Data in request body is required" })
 
-        if (!req.body.title)
+        if (!title)
             return res.status(400).send({ status: false, msg: "title required...!" })
+
 
         checkTitle = await blogModel.findOne({ title: title })
 
         if (checkTitle)
             return res.status(400).send({ status: false, msg: "title is already present...!" });
 
-        if (!req.body.body)
-            return res.status(400).send({ status: false, data: "body is required...!" })
+        if (!body)
+            return res.status(400).send({ status: false, msg: "body is required...!" })
 
-        if (!req.body.category)
-            return res.status(400).send({ status: false, data: "category is required...!" });
+
+        if (!category)
+            return res.status(400).send({ status: false, msg: "category is required...!" });
 
         // console.log(checkTitle)
         if (!authorId)
-            return res.status(400).send({ status: false, data: "authorId is required!...!" });
+            return res.status(400).send({ status: false, msg: "authorId is required!...!" });
 
+      
         if (!author) {
-            return res.status(400).send({ status: false, data: "Please enter valid AuthorId!...!" })
+            return res.status(400).send({ status: false, msg: "Please enter valid AuthorId!...!" })
 
         }
 
-        if (req.body.isPublished === false) {
+        if (isPublished === false) {
             let createBlog1 = await blogModel.create(req.body);
             res.status(201).send({ status: true, data: createBlog1 })
         } else {
@@ -60,20 +65,19 @@ const getBlogs = async function (req, res) {
     try {
 
         let data = req.query;
-       
-        let getData = await blogModel.find({ isPublished: true, isDeleted: false, ...data }).count()
+
+        let getData = await blogModel.find({ isPublished: true, isDeleted: false, ...data })  //.count()
 
         if (getData.length == 0)
-            return res.status(404).send({ status: false, data: " no such data found...!" }) //the documents having ispublished:false , isdeleted:true then excecute
-
+            return res.status(404).send({ status: false, msg: " no such data found...!" })
         if (!getData)
-            return res.status(404).send({ status: false, data: "no such documents found...!" })
+            return res.status(404).send({ status: false, msg: "no such documents found...!" })
 
         res.status(200).send({ status: true, data: getData })
-        console.log(getData)
+        // console.log(getData)
 
     } catch (err) {
-        res.status(500).send({ status: false, data: err.msg })
+        res.status(500).send({ status: false, msg: err.msg })
     }
 
 }
@@ -98,7 +102,7 @@ const updateBlog = async function (req, res) {
         // if (!blog) return res.status(404).send({ status: false, data: "No such Blog is Exist " });
 
         if (blog.isPublished === true)
-            return res.status(400).send({ status: false, data: "blog is already published...!" })
+            return res.status(400).send({ status: false, msg: "blog is already published...!" })
 
         if (blog.isPublished === false && blog.isDeleted === false) {   //condtion here we wants to perform
 
@@ -142,7 +146,7 @@ const deleteByParams = async function (req, res) {
         //     return res.status(404).send({ status: false, data: "no such blog exist " })
 
         if (checkBlog.isDeleted == true)
-            return res.status(400).send({ status: false, data: "blog is already deleted...!" })
+            return res.status(400).send({ status: false, msg: "blog is already deleted...!" })
 
         if (checkBlog.isPublished == true && checkBlog.isDeleted == false) {   //condition wants to excecute
 
@@ -157,7 +161,7 @@ const deleteByParams = async function (req, res) {
         }
 
     } catch (err) {
-        res.status(500).send({ status: false, data: err.message })
+        res.status(500).send({ status: false, msg: err.message })
     }
 
 }
@@ -172,10 +176,10 @@ const deleteByQuery = async function (req, res) {
         let checkBlog = await blogModel.findOne(filter)
 
         if (!checkBlog)
-            return res.status(404).send({ status: false, data: "no such blog exist...! " })
+            return res.status(404).send({ status: false, msg: "no such blog exist...! " })
 
         if (checkBlog.isDeleted === true)
-            return res.status(400).send({ status: false, data: "blog is already deleted...!" })
+            return res.status(400).send({ status: false, msg: "blog is already deleted...!" })
 
         let blogId = checkBlog._id
         // console.log(blogId )
@@ -187,7 +191,7 @@ const deleteByQuery = async function (req, res) {
         res.status(201).send({ status: true, data: deleteBlog })
 
     } catch (err) {
-        res.status(500).send({ status: false, data: err.message })
+        res.status(500).send({ status: false, msg: err.message })
     }
 
 }

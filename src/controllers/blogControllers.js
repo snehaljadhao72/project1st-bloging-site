@@ -5,9 +5,6 @@ const mongoose = require('mongoose');
 
 //*******************************  ### POST /blogs ************************************/
 
-const isValidObjectId1 = (ObjectId) => {
-    return mongoose.Types.ObjectId.isValid(ObjectId);   // to validate a MongoDB ObjectId we are use .isValid() method on ObjectId
-};
 
 const createBlog = async function (req, res) {
     try {
@@ -39,9 +36,7 @@ const createBlog = async function (req, res) {
         if (!authorId)
             return res.status(400).send({ status: false, msg: "authorId is required!...!" });
 
-        if (!isValidObjectId1(req.body.authorId))                //checking the boolean value
-            return res.status(400).send({ status: false, msg: "Enter a valid authorId" })
-
+      
         if (!author) {
             return res.status(400).send({ status: false, msg: "Please enter valid AuthorId!...!" })
 
